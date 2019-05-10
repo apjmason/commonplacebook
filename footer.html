@@ -1,0 +1,28 @@
+<!-- inserted in the footer using the Insert headers and footers plugin for WordPress
+     https://en-gb.wordpress.org/plugins/insert-headers-and-footers/
+-->
+
+<script>
+  d3.csv("https://raw.githubusercontent.com/apjmason/commonplacebook/master/CommonplaceBook.csv", function(error, quotes) {
+    if (error) throw error;
+    updateText(quotes);
+  });
+  function randomDraw(random) {
+    sampled = _.sample(random,1);
+    return sampled;
+  }
+  function updateText(data) {
+    // Grab random line from CSV
+    randomQuote = randomDraw(data);
+    var svg = d3.select("#quote_text");
+    var texts = svg.selectAll("text")
+      .data(randomQuote)
+      .enter();
+    texts.append("text")
+      .attr("class", "quote_text")
+      .text(function(d) { return d.Quote; });
+    texts.append("text")
+      .attr("class", "quote_source")
+      .text(function(d) { return " " + d.Citation; });
+  }
+  </script>
