@@ -5,16 +5,26 @@
 <script>
   d3.csv("https://raw.githubusercontent.com/apjmason/commonplacebook/master/CommonplaceBook.csv", function(error, quotes) {
     if (error) throw error;
+    var Quad = "Nerstrand";
+    var filterQuotes = quotes.filter(function(d, i) { 
+      if (d["Quadrant"] == Quad) { 
+        return d;
+      } 
+    })
     updateText(quotes);
   });
+     
   function randomDraw(random) {
     sampled = _.sample(random,1);
     return sampled;
   }
+     
   function updateText(data) {
     // Grab random line from CSV
     randomQuote = randomDraw(data);
+       
     var svg = d3.select("#quote_text");
+       
     var texts = svg.selectAll("text")
       .data(randomQuote)
       .enter();
